@@ -1,5 +1,5 @@
 const ganache = require("@dexon-foundation/ganache-cli")
-const secret = require('../secret.js')
+const secret = require('./secret.js')
 const mnemonic = secret.mnemonic
 const PORT = 8545;
 const NETWORK_ID = 5777;

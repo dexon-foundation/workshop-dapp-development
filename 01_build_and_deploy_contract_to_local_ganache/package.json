@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "dexon-truffle compile",
     "rpc": "node ./run-ganache.js",
-    "build:webapp": "webpack --progress --mode production"
+    "build:webapp": "webpack --progress --mode production",
+    "migrate:development": "dexon-truffle migrate --network=development --reset"
   },
   "author": "",
   "license": "ISC",
