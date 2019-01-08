@@ -24,7 +24,7 @@ Please take a look of `./package.json` for the detail of `npm run *` commands
 - `npm run build:webapp`
 - Output files will be under `./dist`
 
-## Server Webapp
+## Serve Webapp
 - Go to `./dist`
 - Use any web server to server this folder
 - For exmaple, if you have python installed
