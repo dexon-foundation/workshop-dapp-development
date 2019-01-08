@@ -5,9 +5,9 @@
 2. Remove `./build` and run `npm run compile`
 
 3. Check the json files under `./build/contracts`
-    -   In the `network` section. It should be empty (We havent deploy the contract to anywhere yet)
+    -   In the `network` section. It should be empty (We haven't deployed the contract to any network yet)
 
-4. Run this new command: `npm run migrate:development`\
+4. Run this new command: `npm run migrate:development`
     - If you look into `package.json`, it is actually running as: `dexon-truffle migrate --network=development --reset`
     - `--network=development` tells dexon-truffle to use `development` network defined in `truffle-config.js`
     - `--reset` means running all the scripts under `migrations`. If you don't have `--reset` specified, you will need to create a new migration file
@@ -34,7 +34,7 @@ Saving artifacts...
 ```
 6. Check the json files under `./build/contracts` again
     -   In the `network` section, we should see that information of a new network is added
-    ```
+    ```js
     "networks": {
         "5777": {
             "events": {},
