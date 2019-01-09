@@ -8,7 +8,7 @@ const OUTPUT_FOLDER = './dist';
 
 module.exports = () => {
   const plugins = [
-    new CleanWebpackPlugin([OUTPUT_FOLDER], {  watch: false }),
+    new CleanWebpackPlugin([`${OUTPUT_FOLDER}/*`], {  watch: false }),
     new HtmlWebpackPlugin({
       template: './app/index.html',
     }),
