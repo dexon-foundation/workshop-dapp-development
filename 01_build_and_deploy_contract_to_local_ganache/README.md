@@ -15,13 +15,14 @@
 
 5. You should be able to see output like the follwing:
 ```
-Using network 'development'.
+Starting migrations...
+======================
+> Network name:    'development'
+> Network id:      5777
+> Block gas limit: 6721975
 
-.....
+......
 
-Saving successful migration to network...
-  ... 0x513d6b653f0d70a461ad9227c2829aa9ee2c34768f96f740b0cdf66baffa495b
-Saving artifacts...
 ```
 6. Check the json files under `./build/contracts` again
     -   In the `network` section, we should see that information of a new network is added
