@@ -2,6 +2,9 @@
 
 If you look into the `dependencies` section of the `package.json` file you will noticed that `web3` is added. From now one, whenever you run `npm install` and `web3` will be installed as one of our dependencies. (you can find it under `node_moudles`)
 
+
+## importing Web3
+
 Now it's time to include `web3` in our dapp entry file: `./app/app.js`
 ```js
 console.log('WELCOME TO DEXON WORKSHOP');
@@ -17,9 +20,6 @@ const init = async () => {
   const Web3 = await import('web3');
   console.log(Web3); // Check if we successfully imported something
 };
-
-## importing Web3
-
 init();
 ```
 We are loading `Web3` asynchronously
@@ -28,7 +28,7 @@ After running `npm run build:webapp` and open our dapp in the browser. We should
 
 If you have DekuSan walleted installed, it will inject a global object called `dexon`
 In order for your Dapp to access user's account address, you need to:
-```
+```js
 /**
 * Request approval to read account address from DekuSan wallet
 */
