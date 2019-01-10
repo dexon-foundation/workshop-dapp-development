@@ -6,7 +6,7 @@ contract Hello {
     event UpdateNumber(uint256 _value);
 
     function update() public {
-        value = rand;
+        value += 1;
         emit UpdateNumber(value);
     }
 

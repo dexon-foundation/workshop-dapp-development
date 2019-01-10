@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 contract Hello {
     uint256 public value;
@@ -6,7 +6,7 @@ contract Hello {
     event UpdateNumber(uint256 _value);
 
     function update() public {
-        value = rand;
+        value += 1;
         emit UpdateNumber(value);
     }
 
