@@ -11,63 +11,77 @@ const init = async () => {
   const Web3 = await import('web3');
 
   let httpHandler;
+  let wsHandler;
+  let netId;
+  let myAccount;
 
   if (window.dexon) {
-
-    /**
-     * Request approval to read account address from DekuSan wallet
-     */
     await window.dexon.enable();
+    httpHandler = new Web3.default(window.dexon);
+    netId = await httpHandler.eth.net.getId();
+    myAccount = (await httpHandler.eth.getAccounts())[0];
+  }
 
-    /**
-     * 1. DekuSan wallet injects a global variable called 'dexon'
-     * 2. 'dexon' is a HTTP provider which allows you to communicate with RPC server over HTTP
-     * 3. By passing the provider to web3, we are now able to interact with DEXON
-     */
-    httpHandler = new Web3.default(window.dexon); // httpHandler allows us to interact with the DEXON network
-    const networkID = await httpHandler.eth.net.getId();
-    const contractInfo = (await import('../build/contracts/Hello.json')).default;
-    const { abi, networks } = contractInfo;
-    const address = networks[networkID].address;
-    const helloContract = new httpHandler.eth.Contract(abi, address);
-    // Get user account.
-    const accountList = await httpHandler.eth.getAccounts();
-    const myAccount = accountList[0];
+  const getWebsocketEndpoint = () => {
+    const DEXON_WS_ENDPOINT = (location.protocol === 'https:')
+      ? 'wss://ws-proxy.dexon.org'
+      : 'ws://testnet.dexon.org:8546';
 
-    /**
-      "Check contract balance" button
-     */
-    const checkBalanceButton = document.getElementById('check');
-    checkBalanceButton.onclick = async () => {
-      // Get balance in Dei
-      const balance = await httpHandler.eth.getBalance(address);
-      console.log(`Contract balance in dei: ${balance}`);
-      // Covert from Dei to DXN
-      const balanceInDXN = Web3.utils.fromWei(balance);
-      console.log(`Contract balance in DXN: ${balanceInDXN}`);
-      alert(`Contract balane: ${balanceInDXN} DXN`);
+    switch(netId) {
+      case 5777: // If DekuSan is using local rpc
+        return 'ws://localhost:8545';
+      // If DekuSan is connect to testnet or not availble
+      case 238:
+      default:
+        return DEXON_WS_ENDPOINT;
     }
+  }
+  const ws_endpoint = getWebsocketEndpoint();
+  console.log(`Websocket endpoint: ${ws_endpoint}`);
 
-    /**
-      send DXN nutton
-     */
-    const sendButton = document.getElementById('send');
-    sendButton.onclick = async () => {
-      const amount = prompt('How much DXN do u want to pay');
-      console.log(`You want to pay ${amount} DXN`);
-      /**
-        We should transform the unit from DXN to Dei
-        1 Dei = 1 Wei 
-        1 Dxn = 1000000000000000000 Dei
-       */
-      const amountInDei = Web3.utils.toWei(amount);
-      console.log('This is how much we should pay in wei', amountInDei);
-      await helloContract.methods.funding().send({
+  wsHandler = new Web3.default(ws_endpoint);
+
+  const contractInfo = (await import('../build/contracts/Hello.json')).default;
+  const { abi, networks } = contractInfo;
+  // If there's no netId, we use 238 as default network
+  const address = networks[netId || 238].address;
+
+  let contractReader;
+  let contractWriter;
+
+  // contractReader is created from wsHandler
+  contractReader = new wsHandler.eth.Contract(abi, address);
+
+  // contractWriter is created from httpHandler
+  if (httpHandler) {
+    contractWriter = new httpHandler.eth.Contract(abi, address);
+  }
+
+  // DOM Element to display "value" in contract
+  const valueDisplayElement = document.getElementById('value');
+  // Get current value and display it
+  const val = await contractReader.methods.value().call();
+  valueDisplayElement.textContent = val;
+
+  // Subscribe to "UpdateNumber" event in order to have "value" updated automatically
+  contractReader.events.UpdateNumber({}, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log('[Event] UpdateNumber', data.returnValues.value);
+    valueDisplayElement.textContent = data.returnValues.value;
+    
+  });
+
+  // Call "update" function in the contract when we click on the update button
+  const updateButton = document.getElementById('update');
+  updateButton.onclick = async () => {
+    if (contractWriter && myAccount) {
+      await contractWriter.methods.update().send({
         from: myAccount,
-        value: amountInDei,
       });
     }
-    
   }
 };
 
