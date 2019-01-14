@@ -51,10 +51,10 @@ module.exports = {
       provider: () => (
         new HDWalletProvider(
           mnemonic,
-          'http://testnet.dexon.org:8545', 
-          0, 
-          1, 
-          true, 
+          'http://testnet.dexon.org:8545',
+          0,
+          1,
+          true,
           "m/44'/237'/0'/0/"
         )
       ),
@@ -77,8 +77,8 @@ We should specify `--network` as `dexonTestnet` which can be found in `truffle-c
 ## Deploy time
 
 Now we are all set! Simply run the command:
-```
-npm tun migrate:testnet
+```sh
+npm run migrate:testnet
 ```
 
 and the contract will be deployed to DEXON Testnet!
