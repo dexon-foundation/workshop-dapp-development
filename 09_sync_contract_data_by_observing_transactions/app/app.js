@@ -106,6 +106,7 @@ const init = async () => {
         }
         if ((from === address) || (to === address)) {
           const res = decoder.decodeData(input);
+          // We should see which function is being called with what parameters
           console.log(res);
         }
       });

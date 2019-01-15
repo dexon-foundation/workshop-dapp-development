@@ -20,7 +20,7 @@ const inputDataDecoder = await import('ethereum-input-data-decoder');
 const decoder = new inputDataDecoder.default(abi);
 ```
 The app is a copy from chapter `05` and then we add things to the bottom.
-We also import a new library `ethereum-input-data-decoder` which helps us later
+We also import a new library `ethereum-input-data-decoder` which will be used later.
 
 Basically what Drizzle does is watching the new `block headers`:
 - When there's a new `block header` comming, get `block info` from the `header`
@@ -46,6 +46,7 @@ wsHandler.eth
       }
       if ((from === address) || (to === address)) {
         const res = decoder.decodeData(input);
+        // We should see which function is being called with what parameters
         console.log(res);
       }
     });
@@ -56,7 +57,36 @@ Open up your developer console and it's time to click `Update Value`. You'll see
 ```js
 {name: "update", types: [], inputs: []}
 ```
+- `name` is the function name
+- `types` are parameter types
+- `inputs` will be the actual data passed to the function
 
 Awesome! From now on whoever calls our contract we will know immediately.
 
+## And what now?
 
+The above way gives us some pros and cons
+
+### pros
+- We don't need to keep emitting events and still keeps the reactivity
+  - Dapp will know by itself
+  - It speed up contract development a bit
+  - Save some gas
+  - Of course we still log events which are meant to be logged
+- We don't rely on events but we don't need to poll
+- You can now design your data syncing strategy
+  - Easily defined the minimum variables to update if a certain function is called
+  - and you can do it for events we well
+
+### Cons
+- Extra computation
+  - May be okay for current Ethereum because the TPS isn't that high
+  - DEXON is aimed to be high TPS and low latency so that computation effort could be huge
+  - JavaScript is running in single thread, we have to make sure it won't block other tasks
+
+so maybe we should move it to different thread?
+
+When `wsHandler` is initiated it start receiving lots of data. You can use Chrome's developer tool and examine the data transmission.
+Modern browsers supports [web worker](https://developer.mozilla.org/zh-TW/docs/Web/API/Web_Workers_API/Using_web_workers) which runs tasks in a different thread so it will not block the main thread (for example, UI update might be smoother). 
+We can move the subscription of `newBlockHeaders` into web worker and only notify the main thread if there's something we are interested in.
+Even more, if we move the entire websocket part into another thread our dapp will less likely to be janky. We should always be fully prepared so when DEXON reaches super high TPS we will still be alright 🚀🚀🚀 🌕
