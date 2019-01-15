@@ -1,5 +1,16 @@
 console.log('WELCOME TO DEXON WORKSHOP');
 
+const updateHTML = (data) => {
+  const eventsArea = document.getElementById('past');
+  eventsArea.innerHTML = '';
+  data.forEach((it) => {
+    const { returnValues } = it;
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(document.createTextNode(`Value became ${returnValues.value}, updated by ${returnValues.updateBy}`));
+    eventsArea.appendChild(wrapper);
+  });
+}
+
 const init = async () => {
   /**
    * Make sure that when you get here, basic UI has already been rendered.
@@ -77,10 +88,45 @@ const init = async () => {
   // Call "update" function in the contract when we click on the update button
   const updateButton = document.getElementById('update');
   updateButton.onclick = async () => {
+    myAccount = (await httpHandler.eth.getAccounts())[0];
     if (contractWriter && myAccount) {
       await contractWriter.methods.update().send({
         from: myAccount,
       });
+    }
+  }
+
+  // Get all past "UpdateNumber" events
+  const getPastButton = document.getElementById('getPast');
+  getPastButton.onclick = async () => {
+    const events = await contractReader.getPastEvents(
+      'UpdateNumber', 
+      {
+        fromBlock: '0',
+        toBlock: 'latest',
+      }
+    );
+    console.log('past event: ', events);
+    updateHTML(events);
+  }
+
+  // Query events by user address!
+  const getPastByAccountButton = document.getElementById('getPastByAccount');
+  getPastByAccountButton.onclick = async () => {
+    const address = prompt('please enter the address that you want to search');
+    if (address) {
+      const events = await contractReader.getPastEvents(
+        'UpdateNumber', 
+        {
+          filter: { 
+            updateBy: address,
+          },
+          fromBlock: '0',
+          toBlock: 'latest',
+        }
+      );
+      console.log(`past events from ${address}: `, events);
+      updateHTML(events);
     }
   }
 };

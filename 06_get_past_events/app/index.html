@@ -10,14 +10,21 @@
     </style>
 </head>
 <body>
-  <div id="content" >
+  <div id="content" style="padding: 20px;">
     DEXON Workshop
     <button id="update" >Update Value</button>
+    <button id="getPast" >Get Past Events</button>
+    <button id="getPastByAccount" >Get Past Events By User Account</button>
     <!-- <button id="check" >check contract balance</button> -->
   </div>
   <div style="text-align:center">
     <h1>Value:</h1>
     <h1 id="value"></h1>
+  </div>
+  <hr />
+  <div style="text-align:center">
+    <h1>Past event</h1>
+    <div id="past"></div>
   </div>
 </body>
 </html>
