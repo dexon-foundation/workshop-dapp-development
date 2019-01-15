@@ -70,4 +70,26 @@ getPastByAccountButton.onclick = async () => {
     updateHTML(events);
   }
 }
+
 ```
+
+## Filter with multiple value
+
+You can also filter by `OR` condition
+```js
+const events = await contractReader.getPastEvents(
+      'UpdateNumber', 
+      {
+        filter: { 
+          // If updateBy matches one of ["address1", "address2"]
+          updateBy: [address1, address2],
+        },
+        fromBlock: '0',
+        toBlock: 'latest',
+      }
+    );
+```
+
+It will returns event logs which `updatedBy` is equal to `address1` or `address2`. Please be noted that:
+- Only `OR` is supportted
+- You cannot do `>=`, `<`, `!==`, etc..
