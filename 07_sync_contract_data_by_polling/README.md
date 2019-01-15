@@ -4,7 +4,7 @@ The most primitive way to keep your dapp in sync with the contract state is by p
 
 ## props
 - No need to connect to websocket provider
-- Whatever new variable you add in the contract, your dapp will have access to them without writing extra code (both contract-wise and dapp-wise)
+- Dapp logic might be simpler
 
 ## const
 - Not that reactive (depends on how long your polling interval is)
