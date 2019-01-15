@@ -30,44 +30,40 @@ const init = async () => {
     const { abi, networks } = contractInfo;
     const address = networks[networkID].address;
     const helloContract = new httpHandler.eth.Contract(abi, address);
-    // Get user account.
-    const accountList = await httpHandler.eth.getAccounts();
-    const myAccount = accountList[0];
 
-    /**
-      "Check contract balance" button
-     */
-    const checkBalanceButton = document.getElementById('check');
-    checkBalanceButton.onclick = async () => {
-      // Get balance in Dei
-      const balance = await httpHandler.eth.getBalance(address);
-      console.log(`Contract balance in dei: ${balance}`);
-      // Covert from Dei to DXN
-      const balanceInDXN = Web3.utils.fromWei(balance);
-      console.log(`Contract balance in DXN: ${balanceInDXN}`);
-      alert(`Contract balane: ${balanceInDXN} DXN`);
-    }
+    // Get the list of all views
+    const variableToPoll = abi.filter((item) => {
+      return item.stateMutability === "view";
+    });
 
-    /**
-      send DXN nutton
-     */
-    const sendButton = document.getElementById('send');
-    sendButton.onclick = async () => {
-      const amount = prompt('How much DXN do u want to pay');
-      console.log(`You want to pay ${amount} DXN`);
-      /**
-        We should transform the unit from DXN to Dei
-        1 Dei = 1 Wei 
-        1 Dxn = 1000000000000000000 Dei
-       */
-      const amountInDei = Web3.utils.toWei(amount);
-      console.log('This is how much we should pay in wei', amountInDei);
-      await helloContract.methods.funding().send({
-        from: myAccount,
-        value: amountInDei,
-      });
-    }
+    // This will be our object which data is in sync with contract
+    const contractData = {};
     
+    setInterval(async () => {
+      const getEverything = variableToPoll.map((item) => {
+        return (helloContract.methods[item.name]().call())
+          .then((res) => {
+            contractData[item.name] = res;
+          });
+      });
+
+      // wait until all the response is returned
+      await Promise.all(getEverything);
+      console.log(contractData);
+    }, 3000);
+
+
+    // Call "update" function in the contract when we click on the update button
+    const updateButton = document.getElementById('update');
+    updateButton.onclick = async () => {
+      myAccount = (await httpHandler.eth.getAccounts())[0];
+      if (helloContract && myAccount) {
+        await helloContract.methods.update().send({
+          from: myAccount,
+        });
+      }
+    }
+
   }
 };
 
