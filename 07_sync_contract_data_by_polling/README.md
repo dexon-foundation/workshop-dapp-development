@@ -10,6 +10,8 @@ The most primitive way to keep your dapp in sync with the contract state is by p
 - Not that reactive (depends on how long your polling interval is)
 - If a contract variable rarely change then you might waste a lot of time polling it
 
+
+
 It's still worth taking a look on how to amke a dapp polling the contract state
 
 This is the `Hello.sol`:
@@ -94,10 +96,10 @@ If you open up the developer console, you will see the `contractData` is being p
 {value: "0"}
 {value: "0"}
 {value: "0"}
-// ...keep comming up every 3 seconds
+// ...keep coming up every 3 seconds
 ```
 
-Let add a new public variable `value2` in `Hello.sol` and `value2` gets updated when `update` is called
+add a new public variable `value2` in `Hello.sol` and `value2` gets updated when `update` is called
 ```js
 contract Hello {
     uint256 public value;
@@ -115,7 +117,7 @@ After `npm run migrate:development` and `npm run build:webapp`, let's refresh th
 {value: "0", value2: "0"}
 {value: "0", value2: "0"}
 {value: "0", value2: "0"}
-// ...keep comming up every 3 seconds
+// ...keep coming up every 3 seconds
 ```
 
 If we click `Update value` and within 3 seconds the output will be:
@@ -128,4 +130,4 @@ If we click `Update value` and within 3 seconds the output will be:
 
 Now we know that our data is in sync and even when the contract is changed, we don't need to modify anything but still see the new variable in dapp.
 
-Of course real world cases won't be this simple but at least it gives us an idea that we are able to leverage what's in `ABI` and write less code.
+Of course real world cases won't be this simple (for example, we might have `view function` which takes parameters) but at least it gives us an idea that we are able to leverage what's in `ABI` and write less code. We should bear this in mind when designing our dapp architecture.
