@@ -3,7 +3,7 @@
 Official truffle suite provides a package called [Drizzle](https://truffleframework.com/drizzle). 
 Drizzle takes care of synchronizing the contract data with a Redux store (in your dapp). 
 
-Let's take a look of how Drizzle does it under the hood.
+Let's take a look of how Drizzle does it under the hood. The concept will be helpful to our architecture design.
 
 First of all: 
 - deploy a new contract to DEXON testnet by `npm run migrate:testnet`
@@ -87,6 +87,8 @@ The above way gives us some pros and cons
 so maybe we should move it to different thread?
 
 When `wsHandler` is initiated it start receiving lots of data. You can use Chrome's developer tool and examine the data transmission.
+
 Modern browsers supports [web worker](https://developer.mozilla.org/zh-TW/docs/Web/API/Web_Workers_API/Using_web_workers) which runs tasks in a different thread so it will not block the main thread (for example, UI update might be smoother). 
 We can move the subscription of `newBlockHeaders` into web worker and only notify the main thread if there's something we are interested in.
+
 Even more, if we move the entire websocket part into another thread our dapp will less likely to be janky. We should always be fully prepared so when DEXON reaches super high TPS we will still be alright 🚀🚀🚀 🌕
