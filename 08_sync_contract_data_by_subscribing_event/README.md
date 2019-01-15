@@ -18,5 +18,6 @@ Sounds good! but still got its pros and cons
   - You might find yourself adding/removing events during the development phase of your smart contract
   - Not everything needs to be logged as events and it cost extra gas
 
+Responding to events is a good pattern because it makes your dapp more reactive without unnecessarily calls.
 
-
+If your contract is still changing a lot and you don't want to keep adding/removing events, there are some nice techniques to take a look in chapter `09`
