@@ -19,7 +19,7 @@ Now find this part in `./app/app.js`
 const inputDataDecoder = await import('ethereum-input-data-decoder');
 const decoder = new inputDataDecoder.default(abi);
 ```
-The app is a copy from chapter `05` and then we add things to the bottom.
+The app is a copy from chapter `05` and then we cancel the event subscription.
 We also import a new library `ethereum-input-data-decoder` which will be used later.
 
 Basically what Drizzle does is watching the new `block headers`:
@@ -48,6 +48,10 @@ wsHandler.eth
         const res = decoder.decodeData(input);
         // We should see which function is being called with what parameters
         console.log(res);
+
+        // Update UI
+        const val = await contractReader.methods.value().call();
+        valueDisplayElement.textContent = val;
       }
     });
   });
@@ -86,9 +90,5 @@ The above way gives us some pros and cons
 
 so maybe we should move it to different thread?
 
-When `wsHandler` is initiated it start receiving lots of data. You can use Chrome's developer tool and examine the data transmission.
-
 Modern browsers supports [web worker](https://developer.mozilla.org/zh-TW/docs/Web/API/Web_Workers_API/Using_web_workers) which runs tasks in a different thread so it will not block the main thread (for example, UI update might be smoother). 
 We can move the subscription of `newBlockHeaders` into web worker and only notify the main thread if there's something we are interested in.
-
-Even more, if we move the entire websocket part into another thread our dapp will less likely to be janky. We should always be fully prepared so when DEXON reaches super high TPS we will still be alright 🚀🚀🚀 🌕

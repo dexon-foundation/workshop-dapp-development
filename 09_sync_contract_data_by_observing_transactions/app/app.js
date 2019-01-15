@@ -63,17 +63,6 @@ const init = async () => {
   const val = await contractReader.methods.value().call();
   valueDisplayElement.textContent = val;
 
-  // Subscribe to "UpdateNumber" event in order to have "value" updated automatically
-  contractReader.events.UpdateNumber({}, (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log('[Event] UpdateNumber', data.returnValues.value);
-    valueDisplayElement.textContent = data.returnValues.value;
-    
-  });
-
   // Call "update" function in the contract when we click on the update button
   const updateButton = document.getElementById('update');
   updateButton.onclick = async () => {
@@ -98,7 +87,7 @@ const init = async () => {
       const blockInfo = await wsHandler.eth.getBlock(header.number, true);
       const { transactions } = blockInfo;
       // parse all the txs within this block
-      transactions.forEach((tx) => {
+      transactions.forEach(async (tx) => {
         // console.log(`${tx.from} to ${tx.to}`);
         const { from, to, input } = tx;
         if (!from || !to) {
@@ -108,6 +97,10 @@ const init = async () => {
           const res = decoder.decodeData(input);
           // We should see which function is being called with what parameters
           console.log(res);
+          
+          // Update UI
+          const val = await contractReader.methods.value().call();
+          valueDisplayElement.textContent = val;
         }
       });
     });
