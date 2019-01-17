@@ -8,16 +8,19 @@
     <style>
       html, body { margin: 0; padding: 0; font-family: 'Lato', 'PingFangTC', 'Arial', 'Heiti TC', 'Microsoft Jhenghei', sans-serif; }
     </style>
+    <script src="http://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
 </head>
 <body>
-  <div id="content" style="padding: 20px;">
-    DEXON Workshop
-    <button id="update" >Update Value</button>
+  <div id="content" style="text-align: center;">
+    <h1>DEXON Workshop</h1>
+    <input type="file" id="upload">
+    <div style="margin: 20px;">
+      <img id="preview" style="height: 300px;" />
+    </div>
     <!-- <button id="check" >check contract balance</button> -->
+    <div id="ipfsHash" style="padding: 20px 0px;"></div>
+    <div id="base64" style="padding: 20px 0px;"></div>
   </div>
-  <div style="text-align:center">
-    <h1>Value:</h1>
-    <h1 id="value"></h1>
-  </div>
+
 </body>
 </html>
