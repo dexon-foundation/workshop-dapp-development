@@ -11,7 +11,6 @@ const init = async () => {
   const Web3 = await import('web3');
 
   let httpHandler;
-  let wsHandler;
   let netId;
   let myAccount;
 
@@ -22,88 +21,31 @@ const init = async () => {
     myAccount = (await httpHandler.eth.getAccounts())[0];
   }
 
-  const getWebsocketEndpoint = () => {
-    const DEXON_WS_ENDPOINT = (location.protocol === 'https:')
-      ? 'wss://ws-proxy.dexon.org'
-      : 'ws://testnet.dexon.org:8546';
+  const Logic = (await import('../build/contracts/Logic.json')).default;
 
-    switch(netId) {
-      case 5777: // If DekuSan is using local rpc
-        return 'ws://localhost:8545';
-      // If DekuSan is connect to testnet or not availble
-      case 238:
-      default:
-        return DEXON_WS_ENDPOINT;
-    }
-  }
-  const ws_endpoint = getWebsocketEndpoint();
-  console.log(`Websocket endpoint: ${ws_endpoint}`);
-
-  wsHandler = new Web3.default(ws_endpoint);
-
-  const contractInfo = (await import('../build/contracts/Hello.json')).default;
-  const { abi, networks } = contractInfo;
   // If there's no netId, we use 238 as default network
-  const address = networks[netId || 238].address;
+  const address = Logic.networks[netId || 238].address;
+  document.getElementById('logic').textContent = address;
 
-  let contractReader;
-  let contractWriter;
+  let contractHandler = new httpHandler.eth.Contract(Logic.abi, address);
+  const dataAddress = await contractHandler.methods.data().call();
+  document.getElementById('data').textContent = dataAddress;
 
-  // contractReader is created from wsHandler
-  contractReader = new wsHandler.eth.Contract(abi, address);
-
-  // contractWriter is created from httpHandler
-  if (httpHandler) {
-    contractWriter = new httpHandler.eth.Contract(abi, address);
+  const getValueButton = document.getElementById('get');
+  getValueButton.onclick = async () => {
+    const myValue = await contractHandler.methods.getNumber(myAccount).call();
+    alert(myValue);
   }
 
-  // DOM Element to display "value" in contract
-  const valueDisplayElement = document.getElementById('value');
-  // Get current value and display it
-  const val = await contractReader.methods.value().call();
-  valueDisplayElement.textContent = val;
-
-  // Call "update" function in the contract when we click on the update button
-  const updateButton = document.getElementById('update');
-  updateButton.onclick = async () => {
-    if (contractWriter && myAccount) {
-      await contractWriter.methods.update().send({
-        from: myAccount,
-      });
-    }
-  }
-
-  /**
-    Chapter 09 starts from here
-  */
-
-  const inputDataDecoder = await import('ethereum-input-data-decoder');
-  const decoder = new inputDataDecoder.default(abi);
-
-  // watching the incomming new blocks
-  wsHandler.eth
-    .subscribe('newBlockHeaders')
-    .on('data', async (header) => {
-      const blockInfo = await wsHandler.eth.getBlock(header.number, true);
-      const { transactions } = blockInfo;
-      // parse all the txs within this block
-      transactions.forEach(async (tx) => {
-        // console.log(`${tx.from} to ${tx.to}`);
-        const { from, to, input } = tx;
-        if (!from || !to) {
-          return;
-        }
-        if ((from === address) || (to === address)) {
-          const res = decoder.decodeData(input);
-          // We should see which function is being called with what parameters
-          console.log(res);
-          
-          // Update UI
-          const val = await contractReader.methods.value().call();
-          valueDisplayElement.textContent = val;
-        }
-      });
+  const updateValueButton = document.getElementById('update');
+  updateValueButton.onclick = async () => {
+    const num = prompt('Input a number to update');
+    await contractHandler.methods.setNumber(num).send({
+      from: myAccount,
     });
+    alert('done');
+  }
+
 };
 
 init();

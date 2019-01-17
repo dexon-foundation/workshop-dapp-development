@@ -8,8 +8,8 @@
     "compile": "dexon-truffle compile",
     "rpc": "node ./run-ganache.js",
     "build:webapp": "webpack --progress --mode production",
-    "migrate:development": "dexon-truffle migrate --network=development --reset",
-    "migrate:testnet": "dexon-truffle migrate --network=dexonTestnet --reset"
+    "migrate:development": "dexon-truffle migrate --network=development",
+    "migrate:testnet": "dexon-truffle migrate --network=dexonTestnet"
   },
   "author": "",
   "license": "ISC",
