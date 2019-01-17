@@ -1,5 +1,9 @@
 pragma solidity ^0.5.1;
 
+/**
+  Data-logic separation pattern
+*/
+
 contract Data {
   address owner;
   address logicContract;

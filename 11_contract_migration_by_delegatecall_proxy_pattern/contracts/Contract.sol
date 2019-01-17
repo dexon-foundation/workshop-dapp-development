@@ -1,5 +1,9 @@
 pragma solidity ^0.5.1;
 
+/**
+  Delegatecall-proxy pattern
+ */
+ 
 contract Data {
 
   address owner;
@@ -35,12 +39,8 @@ contract Logic {
   address public logicContract;
   mapping(address => uint) public numbers;
 
-  // We can add events here
-  event Test();
-
   function setNumber(uint256 num) public onlyOwner {
     numbers[msg.sender] = num;
-    emit Test();
   }
 
   modifier onlyOwner() {
