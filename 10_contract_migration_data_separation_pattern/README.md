@@ -1,3 +1,3 @@
-# 10 Contract migration by proxy
+# 10 Contract Migration - Logic/data separation pattern 
 
 
