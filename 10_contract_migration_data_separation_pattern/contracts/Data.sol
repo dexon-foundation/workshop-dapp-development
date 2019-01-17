@@ -1,6 +1,6 @@
 pragma solidity ^0.5.1;
 
-contract Hello {
+contract Data {
     uint256 public value;
 
     event UpdateNumber(uint256 value, address updateBy);
