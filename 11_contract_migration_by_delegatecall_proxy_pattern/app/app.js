@@ -21,15 +21,16 @@ const init = async () => {
     myAccount = (await httpHandler.eth.getAccounts())[0];
   }
 
+  const Data = (await import('../build/contracts/Data.json')).default;
   const Logic = (await import('../build/contracts/Logic.json')).default;
 
   // If there's no netId, we use 238 as default network
-  const address = Logic.networks[netId || 238].address;
-  document.getElementById('logic').textContent = address;
+  const address = Data.networks[netId || 238].address;
+  document.getElementById('data').textContent = address;
 
-  let contractHandler = new httpHandler.eth.Contract(Logic.abi, address);
-  const dataAddress = await contractHandler.methods.data().call();
-  document.getElementById('data').textContent = dataAddress;
+  let contractHandler = new httpHandler.eth.Contract([...Data.abi, ...Logic.abi], address);
+  const logicAddress = await contractHandler.methods.logicContract().call();
+  document.getElementById('logic').textContent = logicAddress;
 
   const getValueButton = document.getElementById('get');
   getValueButton.onclick = async () => {
@@ -40,11 +41,15 @@ const init = async () => {
   const updateValueButton = document.getElementById('update');
   updateValueButton.onclick = async () => {
     const num = prompt('Input a number to update');
-    await contractHandler.methods.setNumber(num).send({
+    await contractHandler.methods['setNumber'](num).send({
       from: myAccount,
     });
     alert('done');
   }
+
+  contractHandler.events.allEvents({}, (data) => {
+    console.log(data);
+  });
 
 };
 

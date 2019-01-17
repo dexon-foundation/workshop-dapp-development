@@ -4,7 +4,7 @@ var Logic = artifacts.require("Logic");
 
 module.exports = async function(deployer) {
   await deployer.deploy(Data);
-  await deployer.deploy(Logic, Data.address);
+  await deployer.deploy(Logic);
   const DataContract = await Data.deployed();
   DataContract.setLogicContract(Logic.address);
 };
@@ -16,13 +16,8 @@ we should create a new migration file and file name should begins with the next 
 
 for example: "3_update_logic_contract_20190120.js"
 
-And the migration process should be like:
-
-var Data = artifacts.require("Data");
-var Logic = artifacts.require("Logic");
-
 module.exports = async function(deployer) {
-  await deployer.deploy(Logic, Data.address);
+  await deployer.deploy(Logic);
   const DataContract = await Data.deployed();
   DataContract.setLogicContract(Logic.address);
 };

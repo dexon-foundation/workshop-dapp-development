@@ -46,7 +46,7 @@ contract Logic {
   }
 
   function getNumber(address addr) view public returns(uint256 num) {
-    return data.getNumber(addr) + 5;
+    return data.getNumber(addr);
   }
 
   function setDataContract(address _data) public {
