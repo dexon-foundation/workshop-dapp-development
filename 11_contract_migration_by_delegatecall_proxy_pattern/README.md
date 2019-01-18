@@ -84,7 +84,7 @@ contract Logic {
 }
 ```
 
-`Logic.setB()` which assign new value to `b` in `Logic` contract. If we call it through `delecatecall` (`Data.setB()`), we are executing `setB()` with the context of `Data`. The result is that `a` will be modified instead of `b`.
+`Logic.setB()` assigns new value to `b`. If we call it through `delecatecall` (`Data.setB()`), we are executing `setB()` with the context of `Data`. The result is that `a` will be modified instead of `b`.
 
 
 The problem is that `Data` and `Logic` has different layout of state variable. Even though in the contract source code we are modifying `b`, but we are executing with the context of `Data`. The position of `b` in `Logic` is actually pointing to `a` in `Data` hence `a` will be corrupted.
