@@ -1,4 +1,4 @@
-# 10 Contract Migration - Logic / data separation pattern 
+# Contract Migration - Logic / data separation pattern 
 
 In order to be able to upgrade our contract, we need to separate the logic and the data.
 

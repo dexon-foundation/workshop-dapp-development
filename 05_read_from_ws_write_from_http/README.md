@@ -1,4 +1,4 @@
-# 05 Read from Websocket provider and Write via Http provider
+# Read from Websocket provider and Write via Http provider
 
 `dexon` object injected by DekuSan wallet is a Http provider. Starts from `web3 1.0` Http provider no longer supports event subscribing. If we want to subscribe to contract event we need to initiate a websocket handler.
 

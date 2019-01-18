@@ -1,4 +1,4 @@
-# 02 Use web3 to connect to local rpc and access contract
+# Use web3 to connect to local rpc and access contract
 
 If you look into the `dependencies` section of the `package.json` file you will noticed that `web3` is added. From now one, whenever you run `npm install` and `web3` will be installed as one of our dependencies. (you can find it under `node_moudles`)
 

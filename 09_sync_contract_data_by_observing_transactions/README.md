@@ -1,4 +1,4 @@
-# 09 Sync data by observing transactions
+# Sync data by observing transactions
 
 Official truffle suite provides a package called [Drizzle](https://truffleframework.com/drizzle). 
 Drizzle takes care of synchronizing the contract data with a Redux store (in your dapp). 

@@ -1,4 +1,4 @@
-# 01 Build and Deploy Smart Contract to local rpc
+# Build and Deploy Smart Contract to local rpc
 
 1. Have your local rpc running by `npm run rpc`
 

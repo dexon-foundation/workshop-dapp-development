@@ -1,4 +1,4 @@
-# 06 Get and search past events
+# Get and search past events
 
 ```
 Continue from chapter 05...

@@ -1,3 +1,3 @@
-# 11 Contract migration - Delegatecall proxy pattern
+# Contract migration - Delegatecall proxy pattern
 
 

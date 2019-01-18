@@ -1,4 +1,4 @@
-# 08 Sync data by subscribing event
+# Sync data by subscribing event
 
 You must be wondering why we have only one `README.md` in this folder?
 

@@ -1,4 +1,4 @@
-# 04 Deploy contract to DEXON Testnet
+# Deploy contract to DEXON Testnet
 
 Inside of `truffle-config.js` we can see:
 

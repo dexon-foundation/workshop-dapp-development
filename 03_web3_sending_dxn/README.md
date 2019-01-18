@@ -1,4 +1,4 @@
-# 03 Sending DXN
+# Sending DXN
 
 
 ## Add payable function in smart contract

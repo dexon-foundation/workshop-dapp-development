@@ -1,4 +1,4 @@
-# 07 Sync data by polling
+# Sync data by polling
 
 The most primitive way to keep your dapp in sync with the contract state is by polling
 

@@ -1,1 +1,1 @@
-# 12 IPFS demo - image uploading
+# IPFS demo - image uploading
