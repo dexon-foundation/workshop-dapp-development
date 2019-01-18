@@ -1,4 +1,4 @@
-# 10 Contract Migration - Logic/data separation pattern 
+# 10 Contract Migration - Logic / data separation pattern 
 
 In order to be able to upgrade our contract, we need to separate the logic and the data.
 
@@ -16,7 +16,7 @@ contract Logic {
 }
 ```
 
-In this tutorial, our dapp interacts with `Logic` contract and `Logic` contract set and read data from `Data` contract
+In this tutorial, our dapp interacts with `Logic` contract. `Logic` contract set and read data from `Data` contract
 
 `Logic` contract should:
 - have the address of `data` contract
@@ -25,9 +25,11 @@ In this tutorial, our dapp interacts with `Logic` contract and `Logic` contract 
 `Data` contract should:
 - only allow `Logic` contract to set its data
 
-We have two contracts to deploy and both of them needs to know each other's address. How would it affect the initial delpoy process?
+## How to deploy?
 
-First, we should remove the `--reset` flag of `dexon-truffle migrate` command
+We have two contracts to deploy and both of them needs to know each other's address. How would it affect the initial deploy process?
+
+First, we should remove the `--reset` flag of `dexon-truffle migrate` command (check `package.json`)
 
 You might have noticed, each migration file has its name begins with a number (`2_delpoy_contract.js`). It's because normally we should wrtie a new migration file each time we want to delpoy a new version. Since the file name begin with a number, trufffle will remember the previous number and only execute the new migration file. (migration number is remembered inside of the migration contact).  
 
@@ -52,6 +54,8 @@ module.exports = async function(deployer) {
 };
 ```
 After the execution `Data` and `Logic` contract are deployed and we should not execute this file again (unless we want to start all over)
+
+## How to upgrade logic contract?
 
 Maybe few weeks later we find a bug inside of `Logic` contract so we need to deploy a new one (while `Data` contract remins the same). We should:
 1. Create a new migration file, maybe this time we call it `3_update_logic_contract_20190120.js`
