@@ -1,6 +1,7 @@
 console.log('WELCOME TO DEXON WORKSHOP');
 
 const updateHTML = (data) => {
+  console.log(data);
   const eventsArea = document.getElementById('past');
   eventsArea.innerHTML = '';
   data.forEach((it) => {

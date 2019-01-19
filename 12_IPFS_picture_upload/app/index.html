@@ -8,18 +8,21 @@
     <style>
       html, body { margin: 0; padding: 0; font-family: 'Lato', 'PingFangTC', 'Arial', 'Heiti TC', 'Microsoft Jhenghei', sans-serif; }
     </style>
-    <script src="http://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
+    <!-- <script src="http://unpkg.com/ipfs-http-client/dist/index.min.js"></script> -->
 </head>
 <body>
   <div id="content" style="text-align: center;">
     <h1>❤克里夫❤ 歡樂圖城 ♠️ </h1>
     <input type="file" id="upload">
     <div style="margin: 20px;">
-      <img id="preview" style="height: 300px;" />
+      <img id="preview" style="max-height: 300px; max-width: 100%;" />
     </div>
     <!-- <button id="check" >check contract balance</button> -->
     <div id="ipfsHash" style="padding: 20px 0px;"></div>
     <div id="base64" style="padding: 20px 0px;"></div>
+  </div>
+  <div id="uploaded">
+
   </div>
 
 </body>
