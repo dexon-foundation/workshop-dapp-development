@@ -75,7 +75,8 @@ const init = async () => {
     const t = await ipfs.add(fileStream, { progress: p => console.log(`progress ${p}`) });
     console.log(t);
     document.getElementById('ipfsHash').innerHTML = `IPFS Hash: <a href="https://gateway.ipfs.io/ipfs/${t[0].hash}">${t[0].hash}</a>`;
-    await contractReader.methods.upload(t[0].hash).send({ from: myAccount });
+    console.log(myAccount);
+    contractWriter.methods.upload(t[0].hash).send({ from: myAccount });
     // console.log(file);
   }
 
@@ -106,7 +107,7 @@ const init = async () => {
       console.error(err);
       return;
     }
-    console.log('[Event] UpdateNumber', data.returnValues);
+    console.log('[Event] image uploaded', data.returnValues);
     eventList.push(data.returnValues);
     renderEventList(eventList);
   });
