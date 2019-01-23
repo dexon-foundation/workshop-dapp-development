@@ -2,3 +2,5 @@ node_modules/
 dist/
 coverage/
 .cache-loader/
+package-lock.json
+build/

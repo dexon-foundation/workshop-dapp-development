@@ -3,3 +3,4 @@ dist/
 coverage/
 .cache-loader/
 package-lock.json
+build/
