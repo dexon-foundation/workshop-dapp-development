@@ -18,7 +18,7 @@ Before we move on to the next one please make sure the following steps works suc
 - output files will be under `./build/contract`
 
 ## 3. Start local RPC
-- Please make sure you have pasted `Seed Words` from your DekuSan wallet
+- Please make sure you have pasted `Seed Words` from your DekuSan wallet to `../secret.js`
 - By doing so we are able to use the same account to deploy contract to local RPC and DEXON testnet
 - `npm run rpc` and you will see: `DEXON-ganacge: Test RPC running on port 8545`
 
