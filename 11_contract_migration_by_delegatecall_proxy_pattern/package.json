@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "ethereum-input-data-decoder": "0.0.13",
-    "web3": "^1.0.0-beta.37"
+    "web3": "1.0.0-beta.37"
   }
 }
