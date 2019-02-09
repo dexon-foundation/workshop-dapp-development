@@ -20,7 +20,7 @@ Before we move on to the next one please make sure the following steps works suc
 ## 3. Start local RPC
 - Please make sure you have pasted `Seed Words` from your DekuSan wallet to `../secret.js`
 - By doing so we are able to use the same account to deploy contract to local RPC and DEXON testnet
-- `npm run rpc` and you will see: `DEXON-ganacge: Test RPC running on port 8545`
+- `npm run rpc` and you will see: `DEXON-ganache: Test RPC running on port 8545`
 
 ## 4. Build Webapp
 - We use `webpack` to bundle `./app/app.js` and injected it into `index.html`

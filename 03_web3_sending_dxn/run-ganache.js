@@ -10,5 +10,5 @@ const server = ganache.server({
 })
 
 server.listen(8545, function(err, blockchain) {
-  console.log(`DEXON-ganacge: Test RPC running on port ${PORT}`);
+  console.log(`DEXON-ganache: Test RPC running on port ${PORT}`);
 })
